@@ -1,0 +1,62 @@
+<div *ngIf="!initialized">
+  <h2>Sélectionne les tables que tu connais</h2>
+  <span class="example-list-section">
+    <mat-checkbox class="example-margin"
+                  [checked]="allComplete"
+                  [indeterminate]="someComplete()"
+                  (change)="setAll($event.checked)">
+      Toutes les tables 
+    </mat-checkbox>
+  </span>
+  <div class="container-fluid row">
+    <div class="col-md-2" *ngFor="let table of tables">
+      <mat-checkbox [checked]="selectedTables.indexOf(table) > -1" (change)="updateAllComplete(table)">
+        Table de {{table}}
+      </mat-checkbox>
+    </div>
+  </div>
+  <button *ngIf="someComplete()" (click)="launch()" mat-button>Lancer le jeu</button>
+</div>
+
+<div *ngIf="initialized && !showScore">
+  <section class="position-relative py-4 py-xl-5" style="width: 100%">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h2 id="already-made" style="font-size: 50px;">{{alreadyPassed.length}}/{{alreadyPassed.length + calculs.length}}
+                  <mat-icon inline *ngIf="last === 1" class="goodResponse">done</mat-icon>
+                  <mat-icon inline *ngIf="last === 2" class="badResponse">close</mat-icon>
+                </h2>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div id="answer" class="col-md-6 col-xl-4 col-xxl-4 d-xxl-flex justify-content-center align-items-center align-content-center justify-content-xxl-center align-items-xxl-center">
+                <div class="card mb-5">
+    <div class="card-body d-flex flex-column justify-content-xxl-center"><span id="multiplication" style="font-size: 28px;">{{calculs[actualCalculIndex].toString()}}</span>
+                        <div>
+                            <div class="mb-3"></div>
+                            <div class="mb-3"><input #result type="number" matInput (keyup.enter)="validate(result.value)"/></div>
+                            <div class="mb-3"><button (click)="validate(result.value)" id="validate-button" class="btn btn-primary text-center d-block w-100" type="button" style="font-size: 30px;">Valider</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="responses-to-hidden" class="hidden col-md-6 col-xl-4 col-xxl-4">
+                <div id="responses"></div>
+                <button id="reload" class="btn btn-primary text-center d-block w-100" style="font-size: 30px;" type="button">Relancer</button>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
+<div *ngIf="showScore && score">
+  <div>
+    <h2>Ton temps: {{score.time}} s</h2>
+    <p>Ton temps sans les malus: {{score.timeWithoutError}} s</p>
+    <p>Tes erreurs: {{score.errors.length}}</p>
+    <p>Ton temps perdu à cause de tes erreurs: {{score.malus}} s</p>
+  </div>
+  <app-show-better-scores [type]="'multiplication-tables'"></app-show-better-scores>
+  <button mat-button (click)="launch()">Rejouer</button>
+</div>

@@ -6,11 +6,13 @@ import { Calcul, MultiplicationOperator, Score } from '../shared/models';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { ShowBetterScoresComponent } from '../show-better-scores/show-better-scores.component';
+import { ScoreService } from '../shared/score.service';
+import { ScoreCounterComponent } from '../score-counter/score-counter.component';
 
 @Component({
   selector: 'app-multiplication-table',
   standalone: true,
-  imports: [ShowBetterScoresComponent, MatCheckboxModule, CommonModule, MatButtonModule, MatInputModule, MatIconModule],
+  imports: [ScoreCounterComponent, ShowBetterScoresComponent, MatCheckboxModule, CommonModule, MatButtonModule, MatInputModule, MatIconModule],
   templateUrl: './multiplication-table.component.html',
   styleUrl: './multiplication-table.component.css'
 })
@@ -28,6 +30,15 @@ export class MultiplicationTableComponent {
   last = -1;
   beginTime: Date = new Date();
   score: Score|undefined;
+  // (1/moyenne du temps) + Difficulté * nombre réussis
+  //D= 1 pour tables 0,1
+  //D= 2 pour tables 2,5,10
+  //D= 3 pour tables 4,9,3
+  //D= 4 pour tables 6,7,8
+  //D= 5 pour tables 11,12,13
+  scoreNumber = 0;
+
+  constructor(private scoreService: ScoreService){}
 
   setAll(checked: boolean) {
     if (checked == true) {
@@ -79,9 +90,24 @@ export class MultiplicationTableComponent {
     this.launchNextCalcul();
   }
 
+  addToScore(calcul: Calcul) {
+    let D = 1;
+    if (calcul.number1 === 2 || calcul.number1 === 5 || calcul.number1 === 10) {
+      D = 2;
+    } else if (calcul.number1 === 4 || calcul.number1 === 9 || calcul.number1 === 3) {
+      D = 3;
+    } else if (calcul.number1 === 6 || calcul.number1 === 7 || calcul.number1 === 8) {
+      D = 4;
+    } else if (calcul.number1 === 11 || calcul.number1 === 12 || calcul.number1 === 13) {
+      D = 5;
+    }
+    this.scoreService.add(D);
+  }
+
   validate(value: string) {
     if (this.calculs[this.actualCalculIndex].calculatedResponse?.toString() == value) {
       this.alreadyPassed.push(this.calculs[this.actualCalculIndex]);
+      this.addToScore(this.calculs[this.actualCalculIndex]);
       this.calculs.splice(this.actualCalculIndex, 1);
       this.last = 1;
     } else {
@@ -89,6 +115,7 @@ export class MultiplicationTableComponent {
       toAddError.givenResponse = Number.parseInt(value);
       this.errors.push(toAddError);
       this.last = 2;
+      this.scoreService.substract(5);
     }
     setTimeout(() => {
       this.last = -1;
@@ -98,8 +125,7 @@ export class MultiplicationTableComponent {
       this.launchNextCalcul();
     } else {
       this.showScore = true;
-      this.score = new Score("multiplication-tables", this.calculs, this.errors, new Date().getTime() -this.beginTime.getTime());
-      console.log('todo show score')
+      this.score = new Score("multiplication-tables", this.calculs, this.errors, new Date().getTime() -this.beginTime.getTime(), this.scoreService.scoreModification.value );
     }
   }
 

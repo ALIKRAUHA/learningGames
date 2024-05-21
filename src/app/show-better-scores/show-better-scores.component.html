@@ -1,3 +1,21 @@
 <div>
-  <p *ngFor="let score of betterScores">Le {{score.date | date:'dd/MM/yyyy HH:mm:ss'}} : {{score.time}} s</p>
+  <table matSort (matSortChange)="sortData($event)">
+    <tr>
+      <th mat-sort-header="date">Date</th>
+      <th mat-sort-header="time">Temps</th>
+      <th mat-sort-header="nbTables">Nombre de tables</th>
+      <th mat-sort-header="tables">Tables</th>
+      <th mat-sort-header="score">Score</th>
+    </tr>
+  
+    <tr *ngFor="let score of betterScores">
+      <td>{{score.date | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+      <td>{{score.time}} s</td>
+      <td>{{score.tables.length}} (<span *ngFor="let table of score.tables">{{table}}</span>)</td>
+      <td>{{score.tables}}</td>
+      <td>{{score.score}}</td>
+    </tr>
+    
+  </table>
+  
 </div>

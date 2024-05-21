@@ -29,7 +29,8 @@ export class Score {
   public timeWithoutError: number;
   public date: Date;
   public malus: number;
-  constructor(public type: string, public calculs: Calcul[], public errors: Calcul[], public time: number) {
+  public tables: number[] = [];
+  constructor(public type: string, public calculs: Calcul[], public errors: Calcul[], public time: number, public score: number) {
     this.time = time / 1000;
     this.date = new Date();
     this.timeWithoutError = this.time;
@@ -42,6 +43,11 @@ export class Score {
     } else {
       item = JSON.parse(itemString);
     }
+    this.calculs.forEach((calcul) => {
+      if (!this.tables.includes(calcul.number1)) {
+        this.tables.push(calcul.number1);
+      }
+    });
     item.push(this);
     localStorage.setItem(type, JSON.stringify(item));
   }

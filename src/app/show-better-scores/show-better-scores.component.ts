@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Score } from '../shared/models';
 import { CommonModule } from '@angular/common';
+import {MatSortModule} from '@angular/material/sort'; 
 
 @Component({
   selector: 'app-show-better-scores',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatSortModule],
   templateUrl: './show-better-scores.component.html',
   styleUrl: './show-better-scores.component.css'
 })
@@ -23,6 +24,10 @@ export class ShowBetterScoresComponent implements OnInit {
         return score1.time - score2.time;
       })
     }
+  }
+
+  sortData(event: any) {
+    console.log(event)
   }
 
 }

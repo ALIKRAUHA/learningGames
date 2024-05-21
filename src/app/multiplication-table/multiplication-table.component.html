@@ -21,6 +21,11 @@
 <div *ngIf="initialized && !showScore">
   <section class="position-relative py-4 py-xl-5" style="width: 100%">
     <div class="container">
+      <div class="row justify-content-end">
+        <div class="col-2">
+          <app-score-counter></app-score-counter>
+        </div>
+      </div>
         <div class="row">
             <div class="col-md-8 col-xl-6 text-center mx-auto">
                 <h2 id="already-made" style="font-size: 50px;">{{alreadyPassed.length}}/{{alreadyPassed.length + calculs.length}}
@@ -41,10 +46,10 @@
                     </div>
                 </div>
             </div>
-            <div id="responses-to-hidden" class="hidden col-md-6 col-xl-4 col-xxl-4">
+            <!-- <div id="responses-to-hidden" class="hidden col-md-6 col-xl-4 col-xxl-4">
                 <div id="responses"></div>
                 <button id="reload" class="btn btn-primary text-center d-block w-100" style="font-size: 30px;" type="button">Relancer</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </section>
@@ -52,7 +57,8 @@
 
 <div *ngIf="showScore && score">
   <div>
-    <h2>Ton temps: {{score.time}} s</h2>
+    <p>Ton score: {{score.score}}</p>
+    <p>Ton temps: {{score.time}} s</p>
     <p>Ton temps sans les malus: {{score.timeWithoutError}} s</p>
     <p>Tes erreurs: {{score.errors.length}}</p>
     <p>Ton temps perdu à cause de tes erreurs: {{score.malus}} s</p>

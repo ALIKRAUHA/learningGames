@@ -9,6 +9,10 @@ export class ScoreService {
 
   constructor() { }
 
+  ponderateByTime(time: number, timeForOne: number, numberOfCalculs: number) {
+    this.scoreModification.next(Math.round(this.scoreModification.value * ((numberOfCalculs * 2)/(time/1000))))
+  }
+
   add(number: number) {
     this.scoreModification.next(this.scoreModification.value + number);
   }

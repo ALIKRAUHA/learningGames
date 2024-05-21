@@ -127,6 +127,7 @@ export class MultiplicationTableComponent {
       this.launchNextCalcul();
     } else {
       this.showScore = true;
+      this.scoreService.ponderateByTime(new Date().getTime() -this.beginTime.getTime(), 2, this.alreadyPassed.length);
       this.score = new Score("multiplication-tables", this.alreadyPassed, this.errors, new Date().getTime() -this.beginTime.getTime(), this.scoreService.scoreModification.value );
     }
   }

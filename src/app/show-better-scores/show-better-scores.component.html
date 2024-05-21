@@ -1,21 +1,35 @@
-<div>
-  <table matSort (matSortChange)="sortData($event)">
-    <tr>
-      <th mat-sort-header="date">Date</th>
-      <th mat-sort-header="time">Temps</th>
-      <th mat-sort-header="nbTables">Nombre de tables</th>
-      <th mat-sort-header="tables">Tables</th>
-      <th mat-sort-header="score">Score</th>
-    </tr>
-  
-    <tr *ngFor="let score of betterScores">
-      <td>{{score.date | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-      <td>{{score.time}} s</td>
-      <td>{{score.tables.length}} (<span *ngFor="let table of score.tables">{{table}}</span>)</td>
-      <td>{{score.tables}}</td>
-      <td>{{score.score}}</td>
-    </tr>
-    
-  </table>
+<div class="container-fluid">
+  <div [ngClass]="{'offset-md-4': true, 'col-md-4 row gy-5': true}">
+    <app-score-card [img]="'assets/top1.png'" [score]="betterScores[0]"></app-score-card>
+  </div>
+  <div class="w-100"></div>
+  <div class="offset-md-2 col-md-8">
+    <div class="row gy-5">
+      <div class="col-md-6" *ngIf="betterScores[1]">
+        <mat-card>
+          <mat-card-content>
+            <h2><img height="75px" [src]="'assets/top2.JPG'"/>{{betterScores[1].score}}</h2>
+            <p class="score">
+              <span class="">Le {{betterScores[1].date | date:'dd/MM/yyyy'}}  à {{betterScores[1].date | date:'HH'}}h {{betterScores[1].date | date:'mm'}}</span> <br/> 
+              {{betterScores[1].time}}s <br/> 
+              Sur les tables suivantes: <span *ngFor="let table of betterScores[1].tables; index as i">{{table}}<span *ngIf="i != betterScores[1].tables.length - 1">,</span></span>
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-md-6" *ngIf="betterScores[2]">
+        <mat-card>
+          <mat-card-content>
+            <h2><img height="75px" [src]="'assets/top3.JPG'"/>{{betterScores[2].score}}</h2>
+            <p class="score">
+              <span class="">Le {{betterScores[2].date | date:'dd/MM/yyyy'}}  à {{betterScores[2].date | date:'HH'}}h {{betterScores[2].date | date:'mm'}}</span> <br/> 
+              {{betterScores[2].time}}s <br/> 
+              Sur les tables suivantes: <span *ngFor="let table of betterScores[2].tables; index as i">{{table}}<span *ngIf="i != betterScores[2].tables.length - 1">,</span></span>
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
   
 </div>

@@ -8,11 +8,12 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { ShowBetterScoresComponent } from '../show-better-scores/show-better-scores.component';
 import { ScoreService } from '../shared/score.service';
 import { ScoreCounterComponent } from '../score-counter/score-counter.component';
+import { ScoreCardComponent } from '../score-card/score-card.component';
 
 @Component({
   selector: 'app-multiplication-table',
   standalone: true,
-  imports: [ScoreCounterComponent, ShowBetterScoresComponent, MatCheckboxModule, CommonModule, MatButtonModule, MatInputModule, MatIconModule],
+  imports: [ScoreCounterComponent, ScoreCardComponent, ShowBetterScoresComponent, MatCheckboxModule, CommonModule, MatButtonModule, MatInputModule, MatIconModule],
   templateUrl: './multiplication-table.component.html',
   styleUrl: './multiplication-table.component.css'
 })
@@ -87,6 +88,7 @@ export class MultiplicationTableComponent {
     this.beginTime = new Date();
     this.alreadyPassed= []
     this.errors = [];
+    this.scoreService.scoreModification.next(0);
     this.launchNextCalcul();
   }
 
@@ -125,7 +127,7 @@ export class MultiplicationTableComponent {
       this.launchNextCalcul();
     } else {
       this.showScore = true;
-      this.score = new Score("multiplication-tables", this.calculs, this.errors, new Date().getTime() -this.beginTime.getTime(), this.scoreService.scoreModification.value );
+      this.score = new Score("multiplication-tables", this.alreadyPassed, this.errors, new Date().getTime() -this.beginTime.getTime(), this.scoreService.scoreModification.value );
     }
   }
 

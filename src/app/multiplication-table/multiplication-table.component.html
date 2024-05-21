@@ -55,14 +55,10 @@
 </section>
 </div>
 
-<div *ngIf="showScore && score">
-  <div>
-    <p>Ton score: {{score.score}}</p>
-    <p>Ton temps: {{score.time}} s</p>
-    <p>Ton temps sans les malus: {{score.timeWithoutError}} s</p>
-    <p>Tes erreurs: {{score.errors.length}}</p>
-    <p>Ton temps perdu à cause de tes erreurs: {{score.malus}} s</p>
+<div class="container-fluid" *ngIf="showScore && score">
+  <div class="margin-bottom-25 offset-md-4 col-md-4">
+    <app-score-card  [score]="score"></app-score-card>
   </div>
   <app-show-better-scores [type]="'multiplication-tables'"></app-show-better-scores>
-  <button mat-button (click)="launch()">Rejouer</button>
+  <button class="font-size-30" mat-button (click)="launch()">Rejouer</button>
 </div>

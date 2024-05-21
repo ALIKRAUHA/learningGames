@@ -1,0 +1,10 @@
+<mat-card>
+  <mat-card-content>
+    <h2><img *ngIf="img" height="75px" [src]="img" />{{score.score}}</h2>
+    <p class="score">
+      <span class="">Le {{score.date | date:'dd/MM/yyyy'}}  à {{score.date | date:'HH'}}h {{score.date | date:'mm'}}</span> <br/> 
+      {{score.time}}s <br/> 
+      Sur les tables suivantes: <span *ngFor="let table of score.tables; index as i">{{table}}<span *ngIf="i != score.tables.length - 1">,</span></span>
+    </p>
+  </mat-card-content>
+</mat-card>

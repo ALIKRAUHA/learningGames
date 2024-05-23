@@ -79,6 +79,9 @@ export class MultiplicationTableComponent {
 
   launchNextCalcul() {
     this.actualCalculIndex = this.getRandomInt(this.calculs.length);
+    setTimeout(()=> {
+      this.result.nativeElement.focus();
+    }, 100)
   }
 
   launch() {
